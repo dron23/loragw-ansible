@@ -1,0 +1,38 @@
+---
+
+- name: Disable dphys-swapfile
+  service:
+    name: dphys-swapfile
+    state: stopped
+    enabled: no
+
+- name: switch swap off
+  shell: dphys-swapfile swapoff
+
+- name: unintall dphys-swapfile
+  shell: dphys-swapfile uninstall
+
+- name: Mount up /tmp as tmpsf
+  mount:
+    path: /tmp
+    src: tmpfs
+    fstype: tmpfs
+    opts: defaults,noatime,nosuid,nodev,noexec,mode=0755,size=10M
+    state: present
+
+- name: Mount up /var/tmp as tmpsf
+  mount:
+    path: /var/tmp
+    src: tmpfs
+    fstype: tmpfs
+    opts: defaults,noatime,nosuid,nodev,noexec,mode=0755,size=1M
+    state: present
+
+- name: Mount up /var/log as tmpsf
+  mount:
+    path: /var/log
+    src: tmpfs
+    fstype: tmpfs
+    opts: defaults,noatime,nosuid,nodev,noexec,size=200M
+    state: present
+

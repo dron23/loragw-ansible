@@ -1,0 +1,9 @@
+[lora_gw]
+loragw1 hostname="ttn-gw-slu-0001" latitude="49.9626878" longitude="17.8713067" altitude="278"
+loragw2 hostname="ttn-gw-slu-0002" latitude="49.8542436" longitude="18.5486450" altitude="269"
+loragw3 hostname="ttn-gw-slu-0003" latitude="49.8681347" longitude="18.5264200" altitude="261"
+
+[all:vars]
+mail = "jiri.slezka@slu.cz"
+zabbix_server = "zabbix.slu.cz"
+zabbix_server_ip = "193.84.206.99"

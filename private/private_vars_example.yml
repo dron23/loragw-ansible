@@ -1,0 +1,6 @@
+
+custom_user: username
+
+vpn_server: vpn.example.com
+vpn_server_key: "vpn.example.com ssh-rsa AAAAxxxxxx=="
+

@@ -1,0 +1,44 @@
+---
+# This playbook deploys LoRa GW
+
+# at first, test if default user is still able to connect
+# if so, do some basic configuration as default user pi
+
+- name: prepare installation
+  hosts: lora_gw
+  gather_facts: no
+  remote_user: pi
+  become: yes
+  become_user: root
+  vars:
+    ansible_ssh_user: pi
+    ansible_ssh_pass: raspberry
+  vars_files:
+    - ./private/private_vars.yml
+  pre_tasks:
+    - name: Test reachability as default user
+      wait_for_connection:
+        timeout: 10
+      ignore_errors: yes
+      register: connectable
+
+    - name: Gather facts
+      setup:
+      when: connectable is succeeded
+  roles:
+    - { role: prepare, when: connectable is succeeded } 
+
+# now we are able to login as user root by key
+
+- name: do installation
+  hosts: lora_gw
+  remote_user: root
+  vars:
+    ansible_ssh_user: root
+  vars_files:
+    - ./private/private_vars.yml
+  roles:
+    - common
+    - ic880a_rpi_backplane
+    - zabbix
+    - lora_ttn_gw

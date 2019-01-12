@@ -1,0 +1,9 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=Prints voltage into /tmp/voltage file
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c '/bin/voltage.py > /tmp/voltage'
+

@@ -1,0 +1,42 @@
+---
+
+- name: Install expect python module
+  apt:
+    name: python-pexpect
+
+- name: Install git
+  apt:
+    name: git
+
+- name: clone ic880a-gateway spi branch
+  git:
+    repo: 'https://github.com/ttn-zh/ic880a-gateway.git'
+    dest: /root/ic880a-gateway
+    version: spi
+
+- name: ic880a gateway install, then reboot rbpi
+  expect:
+    chdir: /root/ic880a-gateway
+    command: ./install.sh spi
+    timeout: 900
+    responses:
+       'Do you want to use remote settings file': ''
+       'Host name': '{{ hostname }}'
+       'Descriptive name': ''
+       'Contact email': '{{ mail }}'
+       'Latitude': '{{ latitude }}'
+       'Longitude': '{{ longitude }}'
+       'Altitude': '{{ altitude }}'
+  ignore_errors: true
+#  async: 10
+#  poll: 0
+
+# succesfull installation will reboot rbpi 
+
+#- name: wait for the reboot to complete
+#  wait_for_connection:
+#    connect_timeout: 20
+#    sleep: 5
+#    delay: 60
+#    timeout: 300
+

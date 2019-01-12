@@ -1,0 +1,57 @@
+---
+
+- name: Upgrade all packages to the latest version
+  apt:
+    name: "*"
+    state: latest
+#    update_cache: yes
+
+#- name: Check kernel update
+#  shell: rpi-update
+
+- name: Add the new custom user
+  user:
+    name: "{{ custom_user }}"
+    shell: /bin/bash
+    groups: adm,dialout,sudo,plugdev,input,netdev,spi,i2c,gpio
+    append: yes
+
+- name: Set authorized key for custom user copying it from current user
+  authorized_key:
+    user: "{{ custom_user }}"
+    state: present
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+
+- name: Remove the default user 'pi'
+  user:
+    name: pi
+    state: absent
+    force: yes
+    remove: yes
+
+- name: Disable password login
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication'
+    line: 'PasswordAuthentication no'
+  notify:
+  - restart sshd
+
+- name: Install iptables-persistent package
+  apt:
+    name: iptables-persistent
+
+- name: Create iptables config
+  template:
+    src: rules.v4.j2
+    dest: /etc/iptables/rules.v4
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Start iptables service
+  service:
+    name: netfilter-persistent
+    state: restarted
+    enabled: yes
+

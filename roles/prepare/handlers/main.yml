@@ -1,0 +1,8 @@
+---
+# Handler to all notifications
+
+- name: systemd reload
+  command: systemctl daemon-reload
+
+- name: restart sshd
+  service: name=ssh state=restarted

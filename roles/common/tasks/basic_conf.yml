@@ -1,0 +1,22 @@
+---
+
+- name: set timezone to Europe/Prague
+  timezone:
+    name: Europe/Prague
+
+- name: Install chrony ntp daemon
+  apt:
+    name: chrony
+
+- name: Start chrony service
+  service:
+    name: chrony
+    state: started
+    enabled: yes
+
+- name: switch off wifi
+  shell: rfkill block wifi
+
+- name: switch off bluetooth
+  shell: rfkill block bluetooth
+

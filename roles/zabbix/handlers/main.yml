@@ -1,0 +1,7 @@
+---
+# Handlers to all notifications
+
+- name: restart zabbix-agent
+  service:
+    name: zabbix-agent
+    state: restarted

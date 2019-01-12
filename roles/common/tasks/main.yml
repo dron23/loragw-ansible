@@ -1,0 +1,9 @@
+---
+
+- name: test
+  ping:
+
+- include_tasks: secure.yml
+- include_tasks: basic_conf.yml
+- include_tasks: sdcard.yml
+
