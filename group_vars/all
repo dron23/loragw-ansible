@@ -1,9 +1,2 @@
 # Variables listed here are applicable to all host groups
 
-
-info_mail_to: "jiri.slezka@slu.cz"
-
-# custom zabbix servery
-agent_server: "zabbix.slu.cz"
-agent_serveractive: "zabbix.slu.cz"
-
